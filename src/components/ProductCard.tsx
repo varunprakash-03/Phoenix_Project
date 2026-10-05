@@ -1,2 +1,43 @@
-import Link from 'next/link';import Image from 'next/image';import {ArrowUpRight} from 'lucide-react';import type {Product} from '@/data/products';
-export function ProductCard({product,index=0}:{product:Product;index?:number}){return <Link className={`product-card ${index%5===0?'product-feature':''}`} href={`/products/${product.slug}`}><div className="product-photo"><Image src={product.image} alt={`${product.name} from the Phoenix catalogue`} fill sizes="(max-width:700px) 100vw, (max-width:1100px) 50vw, 33vw"/><span className="photo-number">{String(index+1).padStart(2,'0')}</span><span className="photo-arrow"><ArrowUpRight size={19}/></span></div><div className="product-meta"><span>{product.category.toUpperCase()}</span><span>PHOENIX COLLECTION</span></div><div className="product-title"><h3>{product.name}</h3><span>Explore <ArrowUpRight size={14}/></span></div></Link>}
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
+import type { Product } from "@/data/products";
+export function ProductCard({
+  product,
+  index = 0,
+}: {
+  product: Product;
+  index?: number;
+}) {
+  return (
+    <Link
+      className="product-card"
+      href={`/products/${product.slug}`}
+    >
+      <div className="product-photo">
+        <Image
+          src={product.image}
+          alt={`${product.name} from the Phoenix catalogue`}
+          fill
+          sizes="(max-width:700px) 100vw, (max-width:1100px) 50vw, 33vw"
+        />
+        <span className="photo-number">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <span className="photo-arrow">
+          <ArrowUpRight size={19} />
+        </span>
+      </div>
+      <div className="product-meta">
+        <span>{product.category.toUpperCase()}</span>
+        <span>PHOENIX COLLECTION</span>
+      </div>
+      <div className="product-title">
+        <h3>{product.name}</h3>
+        <span>
+          Explore <ArrowUpRight size={14} />
+        </span>
+      </div>
+    </Link>
+  );
+}
