@@ -1,136 +1,202 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowDown, ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { products } from "@/data/products";
-import { ProductCard } from "@/components/ProductCard";
+
 export default function Home() {
   const featured = products.filter((p) => p.featured).slice(0, 4);
+
+  const categories = [
+    {
+      label: "Woven Labels",
+      img: "/assest/premium black cotton woven clothing label white background.jpg",
+      href: "/products",
+    },
+    {
+      label: "3D Prints",
+      img: "/assest/3D High-Density Print.jpg",
+      href: "/products",
+    },
+    {
+      label: "Embroidery",
+      img: "/assest/black tuft embroidery patch white background macro.jpg",
+      href: "/products",
+    },
+    {
+      label: "Garment Patches",
+      img: "/assest/black flock velvet garment patch white background.jpg",
+      href: "/products",
+    },
+  ];
+
   return (
     <>
-      <section className="hero">
+      {/* ── HERO ── */}
+      <section className="ph-hero">
         <Image
-          className="hero-image"
-          src="/images/catalogue/p26-3.webp"
-          alt="Woven labels shown in the Phoenix catalogue"
+          className="ph-hero-img"
+          src="/images/catalogue/hero page.png"
+          alt="Phoenix – Garment Identities"
           fill
           priority
           sizes="100vw"
         />
-        <div className="hero-overlay" />
-        <div className="hero-content">
-          <span className="eyebrow hero-eyebrow">
-            GARMENT IDENTITIES · PHOENIX
-          </span>
-          <div className="gold-rule" />
-          <h1>
-            Every detail
-            <br />
-            tells <em>your story.</em>
+        <div className="ph-hero-overlay" />
+        <div className="ph-hero-body">
+          <small className="ph-hero-eyebrow">NEW COLLECTION</small>
+          <h1 className="ph-hero-title">
+            The Phoenix<br />Collection
           </h1>
-          <p>
-            Labels, stickers, printing and garment accessories, shaped around
-            the identity you want to create.
-          </p>
-          <div className="hero-actions">
-            <Link className="button button-light" href="/products">
-              Explore the collection <ArrowUpRight size={16} />
+          <div className="ph-hero-actions">
+            <Link className="ph-btn ph-btn-light" href="/products">
+              DISCOVER
             </Link>
-            <Link className="text-link light-link" href="/contact">
-              Start a custom project <ArrowRight size={15} />
+            <Link className="ph-btn-ghost" href="/contact">
+              Start a Custom Project <ArrowRight size={14} />
             </Link>
           </div>
         </div>
-        <div className="hero-bottom">
-          <span>PHOENIX · PRODUCT COLLECTION</span>
-          <a href="#introduction">
-            <ArrowDown size={15} /> DISCOVER
-          </a>
-          <span>01 — 04</span>
+        <div className="ph-hero-bar">
+          <span>PHOENIX · LABELS · STICKERS · PRINTING</span>
+          <span>GARMENT IDENTITIES</span>
         </div>
       </section>
-      <section id="introduction" className="intro-section section-pad">
-        <div className="intro-copy">
-          <span className="eyebrow">01 / THE PHOENIX APPROACH</span>
-          <h2>
-            Made to carry
-            <br />a <em>brand</em> forward.
-          </h2>
-          <p>
-            From labels and patches to printing and garment accessories, Phoenix
-            brings identity into the details people can see and feel.
-          </p>
-          <Link className="text-link" href="/about">
-            Get to know Phoenix <ArrowRight size={16} />
-          </Link>
+
+      {/* ── SHOP BY CATEGORY ── */}
+      <section className="ph-sec">
+        <div className="ph-sec-head">
+          <span className="ph-eyebrow">01 / THE COLLECTION</span>
+          <h2 className="ph-sec-title">Shop by Category</h2>
         </div>
-        <div className="intro-visual">
-          <Image
-            src="/images/catalogue/p20-1.webp"
-            alt="Embroidered garment detail in the Phoenix catalogue"
-            fill
-            sizes="(max-width:700px) 100vw, 48vw"
-          />
-          <span>TEXTURE · FORM · IDENTITY</span>
-        </div>
-      </section>
-      <section className="collection-section section-pad">
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow">02 / THE COLLECTION</span>
-            <h2>
-              Details that <em>define.</em>
-            </h2>
-          </div>
-          <div>
-            <p>
-              Explore the techniques, finishes and accessories shown across the
-              Phoenix collection.
-            </p>
-            <Link className="text-link" href="/products">
-              View all products <ArrowRight size={15} />
+        <div className="ph-cat-grid">
+          {categories.map((c) => (
+            <Link key={c.label} href={c.href} className="ph-cat-tile">
+              <div className="ph-cat-img">
+                <Image src={c.img} alt={c.label} fill sizes="25vw" className="ph-cat-photo" />
+              </div>
+              <h3 className="ph-cat-label">{c.label}</h3>
+              <p className="ph-cat-cta">Shop now</p>
             </Link>
-          </div>
-        </div>
-        <div className="product-grid home-grid">
-          {featured.map((p, i) => (
-            <ProductCard key={p.slug} product={p} index={i} />
           ))}
         </div>
       </section>
-      <section className="custom-band" id="custom-solutions">
-        <div className="custom-band-image">
+
+      {/* ── SPLIT — CRAFTSMANSHIP ── */}
+      <section className="ph-split">
+        <div className="ph-split-pic">
           <Image
-            src="/images/catalogue/p28-1.webp"
-            alt="Phoenix catalogue imagery about personalized designs"
+            src="/assest/black silicone 3D garment print white background.jpg"
+            alt="Phoenix craftsmanship – silicone 3D garment print"
             fill
             sizes="50vw"
+            className="ph-split-photo"
           />
         </div>
-        <div className="custom-band-copy">
-          <span className="eyebrow">03 / MADE PERSONAL</span>
-          <h2>
-            You create
-            <br />
-            the <em>identity.</em>
+        <div className="ph-split-txt">
+          <small className="ph-eyebrow">02 / THE PHOENIX APPROACH</small>
+          <h2 className="ph-split-heading">
+            Made to carry<br />a <em>brand</em> forward.
           </h2>
           <p>
-            Phoenix offers a customizable design option. Bring an idea, a
-            reference or a direction — and start a conversation about a print
-            that represents you.
+            From labels and patches to printing and garment accessories,
+            Phoenix brings identity into the details people can see and feel.
           </p>
-          <Link className="button button-light" href="/contact">
-            Start your custom project <ArrowUpRight size={16} />
+          <Link className="ph-btn ph-btn-dark" href="/about">
+            EXPLORE
           </Link>
         </div>
       </section>
-      <section className="closing-note section-pad">
-        <span className="eyebrow">A NOTE FROM PHOENIX</span>
-        <p>
-          “You create brand.
-          <br />
-          <em>We print everything.</em>”
+
+      {/* ── SPLIT — CUSTOM (dark) ── */}
+      <section className="ph-split ph-split-rev">
+        <div className="ph-split-txt ph-split-txt-dk">
+          <small className="ph-eyebrow ph-eyebrow-lt">03 / MADE PERSONAL</small>
+          <h2 className="ph-split-heading">
+            You create<br />the <em>identity.</em>
+          </h2>
+          <p>
+            Phoenix offers fully customizable design options. Bring an idea,
+            a reference or a direction — and start a conversation about a
+            print that represents you.
+          </p>
+          <Link className="ph-btn ph-btn-outline" href="/contact">
+            START YOUR CUSTOM PROJECT <ArrowUpRight size={14} />
+          </Link>
+        </div>
+        <div className="ph-split-pic ph-split-pic-dk">
+          <Image
+            src="/assest/cracked texture garment print black white background.jpg"
+            alt="Phoenix – cracked texture garment print custom"
+            fill
+            sizes="50vw"
+            className="ph-split-photo ph-split-photo-dk"
+          />
+        </div>
+      </section>
+
+      {/* ── FEATURED PRODUCTS ── */}
+      <section className="ph-products ph-sec">
+        <div className="ph-sec-head">
+          <span className="ph-eyebrow">04 / FEATURED</span>
+          <h2 className="ph-sec-title">Details that <em>define.</em></h2>
+        </div>
+        <div className="ph-prod-grid">
+          {featured.map((p) => (
+            <Link key={p.slug} href={`/products/${p.slug}`} className="ph-prod-card">
+              <div className="ph-prod-img">
+                <Image
+                  src={p.image}
+                  alt={`${p.name} – Phoenix`}
+                  fill
+                  sizes="(max-width:700px) 100vw, 25vw"
+                  className="ph-prod-photo"
+                />
+                <span className="ph-prod-arrow">
+                  <ArrowUpRight size={18} />
+                </span>
+              </div>
+              <div className="ph-prod-meta">
+                <span>{p.category.toUpperCase()}</span>
+                <span>PHOENIX</span>
+              </div>
+              <div className="ph-prod-title">
+                <h3>{p.name}</h3>
+                <span>Explore <ArrowUpRight size={13} /></span>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div className="ph-products-cta">
+          <Link className="ph-btn ph-btn-dark" href="/products">
+            VIEW ALL PRODUCTS <ArrowUpRight size={14} />
+          </Link>
+        </div>
+      </section>
+
+      {/* ── SERVICES STRIP ── */}
+      <section className="ph-services">
+        <div className="ph-serv-item">
+          <h4>CUSTOM LABELS</h4>
+          <p>Woven, printed or embossed — designed around your brand.</p>
+        </div>
+        <div className="ph-serv-item">
+          <h4>PERSONALISATION</h4>
+          <p>Add your logo, colorway, or a custom detail to any piece.</p>
+        </div>
+        <div className="ph-serv-item">
+          <h4>CLIENT SERVICES</h4>
+          <p>Our team is available to discuss your exact requirement.</p>
+        </div>
+      </section>
+
+      {/* ── CLOSING QUOTE ── */}
+      <section className="ph-closing">
+        <span className="ph-eyebrow">A NOTE FROM PHOENIX</span>
+        <p className="ph-closing-quote">
+          "You create the brand.<br />
+          <em>We print everything."</em>
         </p>
-        <Link className="text-link" href="/contact">
+        <Link className="ph-text-link" href="/contact">
           Tell us what you have in mind <ArrowRight size={15} />
         </Link>
       </section>
