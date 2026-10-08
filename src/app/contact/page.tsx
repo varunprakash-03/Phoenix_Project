@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Mail, ArrowUpRight } from "lucide-react";
-import Image from "next/image";
 import { ContactForm } from "@/components/ContactForm";
 import { email } from "@/lib/site";
 export const metadata: Metadata = {
@@ -40,8 +39,13 @@ export default function ContactPage() {
             <a className="text-link" href="https://www.google.com/maps/search/?api=1&query=Tiruppur%2C%20Tamil%20Nadu%2C%20India" target="_blank" rel="noreferrer">Open Tiruppur in Maps <ArrowUpRight size={15}/></a>
           </div>
           <div className="contact-map">
-            <Image src="/images/catalogue/p29-2.webp" alt="Tiruppur area map shown in the Phoenix catalogue" fill sizes="(max-width: 700px) 100vw, 36vw" />
-            <span>LOCATION REFERENCE · PHOENIX CATALOGUE</span>
+            <iframe
+              title="Map showing Phoenix Fashion Accessories Store in Tiruppur"
+              src="https://maps.google.com/maps?q=Phoenix%20Fashion%20Accessories%20Store%2C%20Tiruppur%2C%20Tamil%20Nadu&z=15&output=embed"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
           </div>
         </section>
       </div>

@@ -14,14 +14,13 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", f);
   }, [pathname]);
   const links = [
+    ["Home", "/"],
     ["About", "/about"],
     ["Products", "/products"],
-    ["Custom Solutions", "/#custom-solutions"],
     ["Contact", "/contact"],
   ];
   const isCurrent = (href: string) =>
-    href !== "/#custom-solutions" &&
-    (pathname === href || (href === "/products" && pathname.startsWith("/products/")));
+    pathname === href || (href === "/products" && pathname.startsWith("/products/"));
   return (
     <header className={`nav ${scrolled ? "nav-scrolled" : ""}`}>
       <Link className="brand" href="/" aria-label="Phoenix home">

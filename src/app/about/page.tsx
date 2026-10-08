@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 export const metadata: Metadata = {
   title: "About Phoenix",
   description:
@@ -117,7 +117,6 @@ export default function AboutPage() {
               <span>{n}</span>
               <h3>{title}</h3>
               <p>{desc}</p>
-              <ArrowUpRight size={17} />
             </article>
           ))}
         </div>
@@ -149,8 +148,8 @@ export default function AboutPage() {
             ],
             [
               "04",
-              "Make an enquiry",
-              "Connect with the team to discuss the next step.",
+              "Ready for your brand",
+              "A finished label, print or accessory to carry your identity.",
             ],
           ].map(([n, t, d]) => (
             <article key={n}>
