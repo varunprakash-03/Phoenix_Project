@@ -1,137 +1,112 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import styles from './SlideDown.module.css';
+import { useState, useEffect, useRef } from 'react';
+import './slide-down.css';
+
+let hasPlayedIntro = false;
 
 export default function SlideDown() {
-  const [loaderState, setLoaderState] = useState('visible'); // 'visible' | 'fading' | 'hidden'
-  const [heroActive, setHeroActive] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(!hasPlayedIntro);
+  const [phase, setPhase] = useState('entering'); // 'entering' | 'idle' | 'sliding' | 'done'
+  const hasDismissed = useRef(false);
 
   useEffect(() => {
-    // Respect prefers-reduced-motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (prefersReducedMotion) {
-      setLoaderState('hidden');
-      setHeroActive(true);
+    if (hasPlayedIntro) {
+      document.body.classList.add('ph-intro-done');
       return;
     }
 
-    // 1. Lock scroll during loader
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      hasPlayedIntro = true;
+      setIsPlaying(false);
+      document.body.classList.add('ph-intro-done');
+      return;
+    }
+
+    hasPlayedIntro = true;
+
+    // Lock scroll while overlay is up
     document.body.style.overflow = 'hidden';
+    document.body.classList.add('ph-intro-playing');
 
-    // 2. Loader fades out after 1.2s
-    const fadeTimer = setTimeout(() => {
-      setLoaderState('fading');
-      setHeroActive(true);
-    }, 1200);
+    // After brand fades in, move to idle state (waiting for user input)
+    const idleTimer = setTimeout(() => {
+      setPhase('idle');
+    }, 1000);
 
-    // 3. Loader completes fade & unlock scroll at 1.9s
-    const hideTimer = setTimeout(() => {
-      setLoaderState('hidden');
-      document.body.style.overflow = '';
-    }, 1900);
+    // --- Dismiss handler: called when user scrolls / swipes / clicks ---
+    const dismiss = () => {
+      if (hasDismissed.current) return;
+      hasDismissed.current = true;
+
+      setPhase('sliding');
+      document.body.classList.add('ph-intro-animate');
+
+      // Unlock scroll after the overlay slides off screen (600ms slide)
+      setTimeout(() => {
+        document.body.style.overflow = '';
+        document.body.classList.remove('ph-intro-playing');
+        document.body.classList.add('ph-intro-done');
+        setIsPlaying(false);
+        setPhase('done');
+      }, 700);
+    };
+
+    // Listen for any scroll / wheel / touch / key intent
+    const onWheel = (e) => { if (e.deltaY > 0) dismiss(); };
+    const onTouchStart = (e) => { window._phTouchY = e.touches[0].clientY; };
+    const onTouchMove = (e) => {
+      if (window._phTouchY !== undefined) {
+        const dy = window._phTouchY - e.touches[0].clientY;
+        if (dy > 10) dismiss();
+      }
+    };
+    const onKeyDown = (e) => {
+      if (['ArrowDown', 'PageDown', ' '].includes(e.key)) dismiss();
+    };
+
+    window.addEventListener('wheel', onWheel, { passive: true });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
+    window.addEventListener('keydown', onKeyDown);
 
     return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(hideTimer);
+      clearTimeout(idleTimer);
+      window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('keydown', onKeyDown);
       document.body.style.overflow = '';
     };
   }, []);
 
+  if (!isPlaying) return null;
+
   return (
-    <div className={styles.container}>
-      {/* ── Fullscreen Intro Loader ── */}
-      {loaderState !== 'hidden' && (
-        <div
-          className={`${styles.loader} ${
-            loaderState === 'fading' ? styles.loaderHidden : ''
-          }`}
-        >
-          <div className={styles.loaderContent}>
-            <h1 className={styles.loaderBrand}>PHOENIX</h1>
-            <p className={styles.loaderTagline}>Garment Identities & Printing</p>
-            <div className={styles.loaderRule} />
-          </div>
-        </div>
-      )}
-
-      {/* ── Sticky Hero ── */}
-      <div className={styles.heroStickyWrapper}>
-        <div className={styles.heroSticky}>
-          {/* Hero Image reveal with curtain clip-path */}
-          <div
-            className={`${styles.heroImageContainer} ${
-              heroActive ? styles.heroImageContainerActive : ''
-            }`}
-          >
-            <img
-              src="/images/catalogue/hero page.png"
-              alt="Phoenix Hero Catalogue"
-              className={styles.heroImage}
-            />
-          </div>
-
-          <div className={styles.heroOverlay} />
-
-          {/* Hero Content */}
-          <div
-            className={`${styles.heroContent} ${
-              heroActive ? styles.heroContentActive : ''
-            }`}
-          >
-            <span className={styles.eyebrow}>01 / THE PHOENIX COLLECTION</span>
-            <h1 className={styles.heroTitle}>
-              Crafted for <em>Distinction</em>
-            </h1>
-            <p className={styles.heroDescription}>
-              High-definition woven labels, 3D silicone prints, custom badges, and premium garment finishing engineered to elevate every identity.
-            </p>
-          </div>
-
-          {/* Giant lowercase "phoenix" wordmark rising from bottom */}
-          <div
-            className={`${styles.giantWordmark} ${
-              heroActive ? styles.giantWordmarkActive : ''
-            }`}
-          >
-            phoenix
-          </div>
-        </div>
+    <div
+      className={`ph-slide-down-overlay ph-overlay-${phase}`}
+      aria-hidden="true"
+      onClick={() => {
+        // Also allow click/tap to dismiss (mobile-friendly)
+        if (phase === 'idle') {
+          const event = new WheelEvent('wheel', { deltaY: 1 });
+          window.dispatchEvent(event);
+        }
+      }}
+    >
+      <div className="ph-intro-content">
+        <h1 className="ph-intro-brand">PHOENIX</h1>
+        <p className="ph-intro-tagline">Garment Identities</p>
       </div>
 
-      {/* ── Next Section (Scrolls over Sticky Hero with rounded top corners) ── */}
-      <section className={styles.nextSection}>
-        <div className={styles.sectionHeader}>
-          <span className={styles.eyebrow}>02 / THE ESSENTIALS</span>
-          <h2 className={styles.sectionTitle}>
-            Bespoke <em>Craftsmanship</em> & Branding
-          </h2>
+      {/* Scroll hint — only shows once brand has fully loaded */}
+      {phase === 'idle' && (
+        <div className="ph-scroll-hint" aria-hidden="true">
+          <span className="ph-scroll-hint-line" />
+          <span className="ph-scroll-hint-label">scroll</span>
         </div>
-
-        <div className={styles.grid}>
-          <div className={styles.card}>
-            <h3 className={styles.cardTitle}>Woven Labels</h3>
-            <p className={styles.cardText}>
-              High-density micro-weave labels designed for tactile comfort and enduring brand clarity across garment collections.
-            </p>
-          </div>
-
-          <div className={styles.card}>
-            <h3 className={styles.cardTitle}>3D Silicone Prints</h3>
-            <p className={styles.cardText}>
-              Dimensional elevated heat transfers engineered with sharp edge definition and ultra-durable flexibility.
-            </p>
-          </div>
-
-          <div className={styles.card}>
-            <h3 className={styles.cardTitle}>Garment Patches</h3>
-            <p className={styles.cardText}>
-              Flock velvet, TPU, and custom embroidered badges designed for outerwear, luxury apparel, and modern streetwear.
-            </p>
-          </div>
-        </div>
-      </section>
+      )}
     </div>
   );
 }

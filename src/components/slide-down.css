@@ -1,0 +1,191 @@
+/* ── SLIDE DOWN INTRO OVERLAY ── */
+.ph-slide-down-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: #f8f6f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+  cursor: default;
+}
+
+/* Phase: brand is fading in */
+.ph-overlay-entering {
+  transform: translateY(0);
+  transition: none;
+}
+
+/* Phase: idle — brand fully visible, waiting for user scroll */
+.ph-overlay-idle {
+  transform: translateY(0);
+  transition: none;
+}
+
+/* Phase: user scrolled — overlay shoots up off screen */
+.ph-overlay-sliding {
+  transform: translateY(-100%);
+  transition: transform 0.65s cubic-bezier(0.76, 0, 0.24, 1);
+  pointer-events: none;
+}
+
+.ph-overlay-done {
+  display: none;
+}
+
+/* ── BRAND CONTENT ── */
+.ph-intro-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: phIntroContentIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.ph-intro-brand {
+  font-family: var(--serif), "Instrument Serif", Georgia, serif;
+  font-size: clamp(38px, 6vw, 72px);
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  color: #171717;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.ph-intro-tagline {
+  font-family: var(--sans), "DM Sans", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  color: #77736b;
+  text-transform: uppercase;
+  margin: 14px 0 0 0;
+  opacity: 0;
+  animation: phFadeIn 0.8s 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── SCROLL HINT ── */
+.ph-scroll-hint {
+  position: absolute;
+  bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  animation: phFadeIn 0.6s ease forwards;
+}
+
+.ph-scroll-hint-line {
+  display: block;
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, #77736b, transparent);
+  animation: phScrollPulse 1.6s ease-in-out infinite;
+}
+
+.ph-scroll-hint-label {
+  font-family: var(--sans), "DM Sans", Arial, sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: #77736b;
+  text-transform: uppercase;
+}
+
+@keyframes phScrollPulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(1); }
+  50%       { opacity: 1;   transform: scaleY(1.15); }
+}
+
+/* ── HERO INTRO ANIMATIONS ── */
+body.ph-intro-playing .ph-hero-img {
+  transform: scale(1.1);
+  transition: transform 2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.ph-intro-animate .ph-hero-img {
+  transform: scale(1);
+}
+
+body.ph-intro-playing .ph-hero-eyebrow,
+body.ph-intro-playing .ph-hero-title,
+body.ph-intro-playing .ph-hero-actions {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.ph-intro-animate .ph-hero-eyebrow {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+
+body.ph-intro-animate .ph-hero-title {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.15s;
+}
+
+body.ph-intro-animate .ph-hero-actions {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.30s;
+}
+
+/* ── GIANT LOWERCASE WORDMARK ── */
+.ph-hero-word {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 105%);
+  font-family: var(--serif), "Instrument Serif", Georgia, serif;
+  font-size: clamp(100px, 28vw, 420px);
+  line-height: 0.72;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  color: #f8f6f0;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+  user-select: none;
+  transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+body.ph-intro-animate .ph-hero-word,
+body.ph-intro-done .ph-hero-word,
+body:not(.ph-intro-playing) .ph-hero-word {
+  transform: translate(-50%, 8%);
+}
+
+/* ── KEYFRAMES ── */
+@keyframes phIntroContentIn {
+  0%   { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes phFadeIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* ── PREFERS REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .ph-slide-down-overlay {
+    display: none !important;
+  }
+  .ph-hero-word {
+    transform: translate(-50%, 8%) !important;
+    transition: none !important;
+  }
+  body.ph-intro-playing .ph-hero-img,
+  body.ph-intro-playing .ph-hero-eyebrow,
+  body.ph-intro-playing .ph-hero-title,
+  body.ph-intro-playing .ph-hero-actions {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

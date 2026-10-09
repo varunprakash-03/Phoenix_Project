@@ -1,0 +1,113 @@
+/* ── SMOOTH REVEAL EFFECTS ── */
+
+/* 1. Headings, Section Headers, Closing & Split Text */
+body.ph-scroll-ready .ph-sec-head,
+body.ph-scroll-ready .ph-closing,
+body.ph-scroll-ready .ph-split-txt > *,
+body.ph-scroll-ready .ph-custom-content > * {
+  opacity: 0;
+  transform: translateY(35px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+body.ph-scroll-ready .ph-sec-head.ph-in-view,
+body.ph-scroll-ready .ph-closing.ph-in-view,
+body.ph-scroll-ready .ph-split-txt > *.ph-in-view,
+body.ph-scroll-ready .ph-custom-content > *.ph-in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 2. Grid items (Category Tiles, Product Cards, Service Items, Custom Cards) */
+body.ph-scroll-ready .ph-cat-tile,
+body.ph-scroll-ready .ph-prod-card,
+body.ph-scroll-ready .ph-serv-item,
+body.ph-scroll-ready .ph-custom-card {
+  opacity: 0;
+  transform: translateY(35px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+body.ph-scroll-ready .ph-cat-tile.ph-in-view,
+body.ph-scroll-ready .ph-prod-card.ph-in-view,
+body.ph-scroll-ready .ph-serv-item.ph-in-view,
+body.ph-scroll-ready .ph-custom-card.ph-in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 3. Curtain Image Reveal for Split Pictures, Category Images, Product Images */
+body.ph-scroll-ready .ph-split-pic,
+body.ph-scroll-ready .ph-cat-img,
+body.ph-scroll-ready .ph-prod-img {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+body.ph-scroll-ready .ph-split-pic img,
+body.ph-scroll-ready .ph-cat-img img,
+body.ph-scroll-ready .ph-prod-img img,
+body.ph-scroll-ready .ph-split-photo,
+body.ph-scroll-ready .ph-cat-photo,
+body.ph-scroll-ready .ph-prod-photo {
+  transform: scale(1.08);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* Revealed state when element OR parent card gets .ph-in-view */
+body.ph-scroll-ready .ph-split-pic.ph-in-view,
+body.ph-scroll-ready .ph-cat-img.ph-in-view,
+body.ph-scroll-ready .ph-prod-img.ph-in-view,
+body.ph-scroll-ready .ph-cat-tile.ph-in-view .ph-cat-img,
+body.ph-scroll-ready .ph-prod-card.ph-in-view .ph-prod-img {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+body.ph-scroll-ready .ph-split-pic.ph-in-view img,
+body.ph-scroll-ready .ph-cat-img.ph-in-view img,
+body.ph-scroll-ready .ph-prod-img.ph-in-view img,
+body.ph-scroll-ready .ph-split-pic.ph-in-view .ph-split-photo,
+body.ph-scroll-ready .ph-cat-tile.ph-in-view .ph-cat-photo,
+body.ph-scroll-ready .ph-prod-card.ph-in-view .ph-prod-photo {
+  transform: scale(1);
+}
+
+/* Fallback: if script hasn't run, show images directly */
+body:not(.ph-scroll-ready) .ph-split-pic,
+body:not(.ph-scroll-ready) .ph-cat-img,
+body:not(.ph-scroll-ready) .ph-prod-img {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* ── PREFERS REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  body.ph-scroll-ready .ph-sec-head,
+  body.ph-scroll-ready .ph-closing,
+  body.ph-scroll-ready .ph-split-txt > *,
+  body.ph-scroll-ready .ph-cat-tile,
+  body.ph-scroll-ready .ph-prod-card,
+  body.ph-scroll-ready .ph-serv-item,
+  body.ph-scroll-ready .ph-split-pic,
+  body.ph-scroll-ready .ph-cat-img,
+  body.ph-scroll-ready .ph-prod-img {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  body.ph-scroll-ready .ph-split-pic img,
+  body.ph-scroll-ready .ph-cat-img img,
+  body.ph-scroll-ready .ph-prod-img img,
+  body.ph-scroll-ready .ph-split-photo,
+  body.ph-scroll-ready .ph-cat-photo,
+  body.ph-scroll-ready .ph-prod-photo {
+    transform: none !important;
+    transition: none !important;
+  }
+}

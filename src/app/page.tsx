@@ -2,6 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { products } from "@/data/products";
+import SlideDown from "@/components/SlideDown";
+import ScrollEffects from "@/components/ScrollEffects";
 
 export default function Home() {
   const featured = products.filter((p) => p.featured).slice(0, 4);
@@ -31,8 +33,11 @@ export default function Home() {
 
   return (
     <>
+      <SlideDown />
+      <ScrollEffects />
       {/* ── HERO ── */}
       <section className="ph-hero">
+
         <Image
           className="ph-hero-img"
           src="/images/catalogue/hero page.png"
@@ -82,7 +87,7 @@ export default function Home() {
       </section>
 
       {/* ── SPLIT — CRAFTSMANSHIP ── */}
-      <section className="ph-split">
+      {/* <section className="ph-split">
         <div className="ph-split-pic">
           <Image
             src="/assest/black silicone 3D garment print white background.jpg"
@@ -105,37 +110,72 @@ export default function Home() {
             EXPLORE
           </Link>
         </div>
-      </section>
+      </section> */}
 
-      {/* ── SPLIT — CUSTOM (dark) ── */}
-      <section className="ph-split ph-split-rev">
-        <div className="ph-split-txt ph-split-txt-dk">
-          <small className="ph-eyebrow ph-eyebrow-lt">03 / MADE PERSONAL</small>
-          <h2 className="ph-split-heading">
-            You create<br />the <em>identity.</em>
-          </h2>
-          <p>
-            Phoenix offers fully customizable design options. Bring an idea,
-            a reference or a direction — and start a conversation about a
-            print that represents you.
-          </p>
-          <Link className="ph-btn ph-btn-outline" href="/contact">
-            START YOUR CUSTOM PROJECT <ArrowUpRight size={14} />
-          </Link>
-        </div>
-        <div className="ph-split-pic ph-split-pic-dk">
-          <Image
-            src="/assest/cracked texture garment print black white background.jpg"
-            alt="Phoenix – cracked texture garment print custom"
-            fill
-            sizes="50vw"
-            className="ph-split-photo ph-split-photo-dk"
-          />
+      {/* ── SECTION 03 — MADE PERSONAL (Redesigned) ── */}
+      <section className="ph-custom-band">
+        <div className="ph-custom-container">
+          <div className="ph-custom-content">
+            <span className="ph-eyebrow ph-eyebrow-lt">03 / MADE PERSONAL</span>
+            <h2 className="ph-custom-title">
+              You create<br />the <em>identity.</em>
+            </h2>
+            <p className="ph-custom-desc">
+              Phoenix offers fully customizable design options. Bring an idea,
+              a reference, or a direction — and start a conversation about a
+              print that represents your brand.
+            </p>
+
+            <div className="ph-custom-steps">
+              <div className="ph-step">
+                <span className="ph-step-num">01</span>
+                <span>Concept & Artwork</span>
+              </div>
+              <div className="ph-step-divider">→</div>
+              <div className="ph-step">
+                <span className="ph-step-num">02</span>
+                <span>Weave & Finish</span>
+              </div>
+              <div className="ph-step-divider">→</div>
+              <div className="ph-step">
+                <span className="ph-step-num">03</span>
+                <span>Precision Print</span>
+              </div>
+            </div>
+
+            <div className="ph-custom-cta-wrap">
+              <Link className="ph-btn ph-btn-gold" href="/contact">
+                START YOUR CUSTOM PROJECT <ArrowUpRight size={14} />
+              </Link>
+            </div>
+          </div>
+
+          <div className="ph-custom-grid">
+            <div className="ph-custom-card">
+              <div className="ph-card-icon">✦</div>
+              <h3>100% Bespoke</h3>
+              <p>Tailored weave density, custom Pantones & exact edge-finishes.</p>
+            </div>
+            <div className="ph-custom-card">
+              <div className="ph-card-icon">❖</div>
+              <h3>3D & Micro-Weave</h3>
+              <p>Elevated silicone heat transfers, micro-damask & velvet flocking.</p>
+            </div>
+            <div className="ph-custom-card">
+              <div className="ph-card-icon">◈</div>
+              <h3>Eco & Specialty Foils</h3>
+              <p>Organic cotton threads, metallic foils, and flexible TPU Badges.</p>
+            </div>
+            <div className="ph-custom-card">
+              <div className="ph-card-icon">⚡</div>
+              <h3>Rapid Prototyping</h3>
+              <p>Dedicated design support from initial sample to production.</p>
+            </div>
+          </div>
         </div>
       </section>
-
       {/* ── FEATURED PRODUCTS ── */}
-      <section className="ph-products ph-sec">
+      {/* <section className="ph-products ph-sec">
         <div className="ph-sec-head">
           <span className="ph-eyebrow">04 / FEATURED</span>
           <h2 className="ph-sec-title">Details that <em>define.</em></h2>
@@ -171,7 +211,7 @@ export default function Home() {
             VIEW ALL PRODUCTS <ArrowUpRight size={14} />
           </Link>
         </div>
-      </section>
+      </section>  */}
 
       {/* ── SERVICES STRIP ── */}
       <section className="ph-services">
